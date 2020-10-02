@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">CardsNew</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="email_mandatory">Электронная почта *</string>
+    <string name="password_mandatory">Пароль *</string>
+    <string name="confirm_password_mandatory">Подтвердите пароль *</string>
+    <string name="name_mandatory">Имя *</string>
+    <string name="surname_mandatory">Фамилия *</string>
+    <string name="birthday">Дата рождения</string>
+    <string name="status">Вы ученик, учитель, родитель?</string>
+    <string name="email_error">Вы не ввели адрес электронной почты.</string>
+    <string name="email_validate_error">Проверьте правильность введенного адреса.</string>
+    <string name="password_error">Придумаете пароль и впишите его в соответствующее поле.</string>
+    <string name="confirm_password_error">Введите пароль еще раз.</string>
+    <string name="compare_password_error">Введенные пароли не совпадают.</string>
+    <string name="name_error">Вы не ввели свое имя.</string>
+    <string name="surname_error">Вы не ввели свою фамилию.</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="date_choiсe">Выбор даты</string>
+    <string name="error_title">Сервер РЕШУ ЕГЭ временно недоступен.</string>
+    <string name="error">К сожалению, сервер РЕШУ ЕГЭ в настоящий момент временно недоступен. Приносим извинения.</string>
+    <string name="connection_error_title">Отсутствует подключение</string>
+    <string name="connection_error">Для для скачивания и обновления предметов необходимо подключение к сети интернет</string>
+    <string name="pirate_title">ПИРАТСКАЯ КОПИЯ</string>
+    <string name="pirate_message">Ваша копия приложения не прошла проверку подлинности. Последнюю легальную обновляемую версию можно приобрести здесь...\nДавайте, до свидания.</string>
+    <string name="pirate_okay">Да, неловко вышло</string>
+
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Пароль</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="action_sign_in_short">Войти</string>
+    <string name="error_invalid_email">Недопустимый формат e-mail</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">Неправильный логин или пароль</string>
+    <string name="error_field_required">Поле не должно быть пустым</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <string name="news">Новости</string>
+    <string name="search">Поиск</string>
+    <string name="stats">Статистика</string>
+    <string name="about">Об экзамене, шкала баллов</string>
+    <string name="info">О проекте</string>
+    <string name="check">Проверить обновления заданий</string>
+    <string name="addon">Дополнительно</string>
+    <string name="settings">Настройки</string>
+    <string name="change">Сменить пользователя</string>
+    <string name="logout">Выйти</string>
+</resources>
