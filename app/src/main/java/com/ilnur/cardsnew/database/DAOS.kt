@@ -12,11 +12,14 @@ interface UserDao {
     @Query("SELECT * FROM user WHERE session_id = :session_id")
     fun getBySessionId(session_id: String): LiveData<List<User>>
 
-    @Query("SELECT * FROM user")
-     fun getUser(): LiveData<List<User>>
+    @Query("SELECT * FROM user LIMIT 1")
+    fun getUser(): LiveData<User>
+
+    @Query("SELECT * FROM user LIMIT 1")
+    fun getUserDb(): User?
 
     @Query("SELECT * FROM user")
-     fun getUserList(): List<User>
+    fun getUserList(): List<User>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(user: User)

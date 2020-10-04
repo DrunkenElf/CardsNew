@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ilnur.cardsnew.database.Subject
+import com.ilnur.cardsnew.database.User
 import com.ilnur.cardsnew.repository.MainRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,12 +19,19 @@ open class MainViewModel @ViewModelInject constructor(private val repository: Ma
     val _subjects = MutableLiveData<List<Subject>>()
     val subjects: LiveData<List<Subject>> get() = _subjects //список предметов
 
+     val user = MutableLiveData<User?>()
+
+
     init {
        CoroutineScope(Dispatchers.IO).launch{ _subjects.postValue(repository.getSubjects())}
     }
 
     val _currentSubj = MutableLiveData<Subject>()
     val currentSubj: LiveData<Subject> get() = _currentSubj
+
+    fun getUserDb(){
+       CoroutineScope(Dispatchers.IO).launch {   user.postValue(repository.getUserDb())}
+    }
 
     fun selectSubject(subject: Subject){
         _currentSubj.postValue(subject)

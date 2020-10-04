@@ -42,7 +42,7 @@ class MainActivity: AppCompatActivity(),NavigationView.OnNavigationItemSelectedL
     //@Inject lateinit var apiRequests: ApiRequests
     @Inject lateinit var apiRequests: ApiRequestsImp
 
-    suspend fun downloadNotLogged(subjects: List<Subject>){
+    suspend fun downloadData(subjects: List<Subject>){
         apiRequests.downloadAllSubjs(subjects, viewModel)
     }
 
@@ -73,6 +73,12 @@ class MainActivity: AppCompatActivity(),NavigationView.OnNavigationItemSelectedL
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initViews()
+
+        setObservers()
+    }
+    // 22:20:04.526 22:21:04.018
+    fun initViews(){
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -111,10 +117,9 @@ class MainActivity: AppCompatActivity(),NavigationView.OnNavigationItemSelectedL
 
         val navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
+    }
 
-        val bar =supportActionBar
-
-
+    fun setObservers(){
         viewModel.currentSubj.observe(this, {
             Log.d("MainActModel", it.toString())
             //Toast.makeText(this, it.toString(), Toast.LENGTH_LONG).show()
@@ -122,10 +127,10 @@ class MainActivity: AppCompatActivity(),NavigationView.OnNavigationItemSelectedL
         })
 
         viewModel.subjects.observeOnce (this, {
-            CoroutineScope(Dispatchers.IO).launch { downloadNotLogged(it) }
+            CoroutineScope(Dispatchers.IO).launch { downloadData(it) }
         })
+    }
 
-    }// 22:20:04.526 22:21:04.018
 
     fun getNavController(): NavController {
         return findNavController(this, R.id.container)

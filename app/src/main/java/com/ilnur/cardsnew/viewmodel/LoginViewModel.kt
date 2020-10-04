@@ -15,7 +15,7 @@ class LoginViewModel @ViewModelInject constructor (private val repository: Login
     //val api: API by inject(API::class.java)
     //@Inject lateinit var apiRequests: ApiRequestsImp
 
-    fun getUser(): LiveData<List<User>> = liveData {
+    fun getUser(): LiveData<User> = liveData {
         val res = repository.getUserDb().value
         res?.let {
             emit(res)

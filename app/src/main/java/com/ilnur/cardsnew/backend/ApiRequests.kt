@@ -21,21 +21,22 @@ enum class DataState {
     NO_CONNECTION
 }
 
-interface ApiRequests{
+interface ApiRequests {
     suspend fun downloadSubjNotLogged(subject: Subject, viewModel: MainViewModel)
 
     suspend fun downloadAllSubjs(subjects: List<Subject>, viewModel: MainViewModel)
 
-    suspend fun auth(login: String,password: String, type: String = "login", protocolVersion: Int = 1,
+    suspend fun auth(
+        login: String, password: String, type: String = "login", protocolVersion: Int = 1,
     ): Response<ResponseRest>
 
-    suspend fun getSubjTopics( url: String): Response<ResponseTopics>
+    suspend fun getSubjTopics(url: String): Response<ResponseTopics>
 
-    suspend fun getCatCards( url: String): Response<ResponseCards>
+    suspend fun getCatCards(url: String): Response<ResponseCards>
 }
 
 
-class ApiRequestsImp @Inject constructor(val api: API, val db: AppDatabase): ApiRequests {
+class ApiRequestsImp @Inject constructor(val api: API, val db: AppDatabase) : ApiRequests {
 
     @Inject
     lateinit var categoryDao: CategoryDao
@@ -46,16 +47,43 @@ class ApiRequestsImp @Inject constructor(val api: API, val db: AppDatabase): Api
     @Inject
     lateinit var subjectDao: SubjectDao
 
+    @Inject
+    lateinit var userDao: UserDao
+
     override suspend fun downloadAllSubjs(subjects: List<Subject>, viewModel: MainViewModel) {
         coroutineScope {
-            subjects.forEach { subject ->
-                when (subject.isAdded) {
-                    false -> async {downloadSubjNotLogged(subject, viewModel)}
-                    true -> {Log.d("Subject already added", "${subject.title} already")}
+            val user = userDao.getUserList().firstOrNull()
+            when (user) {
+                null -> //not logged
+                else -> when (user.logged) {
+                    true ->
+                }
+            }
+
+        }
+    }
+
+    suspend fun loadSubjLogged(subjects: List<Subject>, viewModel: MainViewModel) = coroutineScope {
+        subjects.forEach { subject ->
+            when (subject.isAdded) {
+                false -> async { downloadSubjNotLogged(subject, viewModel) }
+                true -> {
+                    Log.d("Subject already added", "${subject.title} already")
                 }
             }
         }
     }
+    suspend fun loadSubjNotLogged(subjects: List<Subject>, viewModel: MainViewModel) = coroutineScope {
+        subjects.forEach { subject ->
+            when (subject.isAdded) {
+                false -> async { downloadSubjNotLogged(subject, viewModel) }
+                true -> {
+                    Log.d("Subject already added", "${subject.title} already")
+                }
+            }
+        }
+    }
+
 
     //download Subject
     override suspend fun downloadSubjNotLogged(subject: Subject, viewModel: MainViewModel) {
@@ -65,7 +93,8 @@ class ApiRequestsImp @Inject constructor(val api: API, val db: AppDatabase): Api
                 respTopics?.data?.forEach { respCategory ->
                     val category = convertToCategory(respCategory, subject.href)
                     async { categoryDao.insert(category) }
-                    val cards = async { api.getCatCards(getCardsNotLogged(subject.href, category.id)) }
+                    val cards =
+                        async { api.getCatCards(getCardsNotLogged(subject.href, category.id)) }
                     cards.await().body().let { respCards ->
                         respCards?.data?.forEach {
                             val card = it.toCard(subject.href)
@@ -89,9 +118,10 @@ class ApiRequestsImp @Inject constructor(val api: API, val db: AppDatabase): Api
         protocolVersion: Int
     ): Response<ResponseRest> = api.auth(login, password, type, protocolVersion)
 
-    override suspend fun getSubjTopics(url: String): Response<ResponseTopics> = api.getSubjTopics(url)
+    override suspend fun getSubjTopics(url: String): Response<ResponseTopics> =
+        api.getSubjTopics(url)
 
-    override suspend fun getCatCards(url: String): Response<ResponseCards>  = api.getCatCards(url)
+    override suspend fun getCatCards(url: String): Response<ResponseCards> = api.getCatCards(url)
 }
 
 fun getCatsUrlNotLogged(href: String) =

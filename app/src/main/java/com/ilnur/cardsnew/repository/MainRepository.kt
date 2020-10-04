@@ -28,8 +28,8 @@ open class MainRepository @Inject constructor(
     }
 
 
-    fun getUserDb(): LiveData<List<User>> {
-        return userDao.getUser()
+    fun getUserDb(): User? {
+        return userDao.getUserDb()
     }
 
 

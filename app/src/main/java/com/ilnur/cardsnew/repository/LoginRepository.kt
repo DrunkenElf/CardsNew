@@ -28,7 +28,7 @@ class LoginRepository @Inject constructor(var context: Context, var userDao: Use
 
     //fun getDB(context: Context) = AppDatabase(context)
 
-     fun getUserDb(): LiveData<List<User>> {
+     fun getUserDb(): LiveData<User> {
         return userDao.getUser()
     }
 
@@ -46,7 +46,7 @@ class LoginRepository @Inject constructor(var context: Context, var userDao: Use
 
 
      fun isLogged(): Boolean =
-        if (userDao.getUser().value != null) userDao.getUser().value!!.isNotEmpty() else false
+        if (userDao.getUser().value != null) userDao.getUser().value!!.session_id.isNullOrBlank() else false
 
     fun isNetworkConnected(): Boolean {
         var result = false
